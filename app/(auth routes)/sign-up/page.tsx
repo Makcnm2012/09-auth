@@ -17,7 +17,7 @@ const SignUp = () => {
       const res = await register(formValues);
       if (res) {
         setUser(res);
-        router.push("./profile");
+        router.push("/profile");
       } else {
         setError("Invalid email or password");
       }

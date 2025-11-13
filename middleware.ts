@@ -56,6 +56,7 @@ export default async function middleware(request: NextRequest) {
     if (isPrivateRoute) {
       return NextResponse.redirect(new URL('/sign-in', request.url));
     }
+    return NextResponse.next();
   }
 
   if (isPublicRoute) {
@@ -64,6 +65,7 @@ export default async function middleware(request: NextRequest) {
   if (isPrivateRoute) {
     return NextResponse.next();
   }
+  return NextResponse.next();
 }
 
 export const config = {

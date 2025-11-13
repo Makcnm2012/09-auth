@@ -26,7 +26,7 @@ export default function EditProfile() {
     <div className={css.profileCard}>
       <h1 className={css.formTitle}>Edit Profile</h1>
       <Image
-        src={user?.avatar || "avatar"}
+        src={user?.avatar || "https://api.dicebear.com/9.x/bottts/avif"}
         alt="User Avatar"
         width={120}
         height={120}
@@ -41,7 +41,7 @@ export default function EditProfile() {
             type="text"
             className={css.input}
             onChange={handleChange}
-            placeholder={user?.username || "Enter new name"}
+            value={user?.username || "Enter new name"}
           />
         </div>
 

@@ -20,7 +20,9 @@ export default function AuthNavigation() {
 
   return isAuthenticated ? (
     <li className={css.navigationItem}>
-      <p className={css.userEmail}>{user?.username}</p>
+      <Link href="/profile" className={css.navigationLink}>
+        {user?.username || user?.email || "Profile"}
+      </Link>{" "}
       <button onClick={handleLogout} className={css.logoutButton}>
         Logout
       </button>
