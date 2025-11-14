@@ -13,14 +13,14 @@ type Props = {
 export default async function NoteModalPage({ params }: Props) {
   const { id } = await params;
 
-  const queryClinet = new QueryClient();
+  const queryClient = new QueryClient();
 
-  queryClinet.prefetchQuery({
+  queryClient.prefetchQuery({
     queryKey: ["note", id],
     queryFn: () => fetchServerNoteById(id),
   });
   return (
-    <HydrationBoundary state={dehydrate(queryClinet)}>
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <NotePreview />
     </HydrationBoundary>
   );

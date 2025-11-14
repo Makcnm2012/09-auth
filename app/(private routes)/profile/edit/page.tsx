@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import css from "./EditProfilePage.module.css";
 import { updateMe } from "@/lib/api/clientApi";
 import { useRouter } from "next/navigation";
@@ -8,16 +8,25 @@ import { useAuthStore } from "@/lib/store/authStore";
 import Image from "next/image";
 
 export default function EditProfile() {
-  const [username, setUserName] = useState("");
   const router = useRouter();
   const { setUser, user } = useAuthStore();
+  const [username, setUserName] = useState(user?.username || "");
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(event.target.value);
   };
-
+  useEffect(() => {
+    if (user?.username) {
+      setUserName(user.username);
+    }
+  }, [user]);
   const handleClose = () => router.back();
   const handleSaveUser = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!username.trim() || username === user?.username) {
+      router.push("/profile");
+      return;
+    }
     const updateUser = await updateMe({ username });
     setUser(updateUser);
     router.push("/profile");
@@ -41,11 +50,21 @@ export default function EditProfile() {
             type="text"
             className={css.input}
             onChange={handleChange}
-            value={user?.username || "Enter new name"}
+            value={username}
+            placeholder="Enter new name"
           />
         </div>
 
-        <p>Email: {user?.email || "user_email@example.com"}</p>
+        <div className={css.emailWrapper}>
+          <label htmlFor="email">Email:</label>
+          <input
+            id="email"
+            type="email"
+            className={css.input}
+            value={user?.email || ""}
+            readOnly
+          />
+        </div>
 
         <div className={css.actions}>
           <button type="submit" className={css.saveButton}>
